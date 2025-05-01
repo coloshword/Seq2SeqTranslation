@@ -13,7 +13,7 @@ $$
 2 H × V
 $$
 
-b. In the NdLinear version, we take advantage of ndLinear's strength for multidimensional inputs, and treat the context tensor as another row, resulting in an input of shape (2, hidden_dim). This results in a linear layer **NdLinear((2, hidden_dim), (1, vocab_size))**, which is **~50%** the parameters of the standard linear layer.
+b. In the NdLinear version, we take advantage of NdLinear's strength for multidimensional inputs, and treat the context tensor as another row, resulting in an input of shape (2, hidden_dim). This results in a linear layer **NdLinear((2, hidden_dim), (1, vocab_size))**, which is **~50%** the parameters of the standard linear layer.
 - Weights parameter count:
 
 $$
