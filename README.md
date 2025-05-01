@@ -1,13 +1,21 @@
 ## Benchmarking nn.Linear vs nd.Linear in a Sequence To Sequence Machine Translation Model
-### Overview
-**this is my application to Ensemble AI's ML research intern & ML engineering intern positions** 
+## Overview
+**This is my application to Ensemble AI's ML research intern & ML engineering intern positions**
 
-- We will be implementing a Sequence To Sequence model for English to Chinese machine translation. 
-- The attention mechanism we will be implementing will be Luong Attention, general form, as it makes use of another Linear layer. 
-- We will run 2 experiments benchmarking nn.Linear vs nd.Linear:
+We will develop and benchmark two English → Chinese sequence to sequence translators built on an LSTM encoder decoder with Luong (general) attention.
+The models share the same data pipeline, tokenizer, training schedule, and hyper-parameters; they diverge only in the final output linear layer. 
 
-1. **Performance Benchmarking**
-We will compare final performance between the Seq2Seq models using nn.Linear and nd.Linear, keeping model size the same. 
+a. In the baseline (nn.Linear) model, we generate a context tensor through the attention mechanism, and concatenate the context tensor to the end of the hidden state tensor. This results in a linear layer with parameters: **nn.Linear(2 * hidden_dim, vocab_size)**. 
 
-2. **Parameter size analysis**
-We will evaluate whether a Seq2Seq model using nd.Linear will perform similarly to the same model architecture using nn.Linear, but with a lower parameter count; specifically, the hidden dim will be 256 in the nn.Linear implementation, vs 192 in the nd.Linear implementation, representing a ~25% reduction in parameter count.
+- Weights parameter count: $$ 
+2 H × V
+$$
+
+b. In the NdLinear version, we take advantage of ndLinear's strength for multidimensional inputs, and treat the context tensor as another row, resulting in an input of shape (2, hidden_dim). This results in a linear layer **NdLinear((2, hidden_dim), (1, vocab_size))**, which is **~50%** the parameters of the standard linear layer.
+- Weights parameter count:
+$$
+(2 * 1) + (H * V)
+$$
+
+
+We will benchmark the performance of the standard Seq2Seq model to this augmented model using NdLinear, and see how the smaller NdLinear model performs, compared to the larger standard model. 
