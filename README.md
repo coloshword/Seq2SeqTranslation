@@ -7,15 +7,20 @@ The models share the same data pipeline, tokenizer, training schedule, and hyper
 
 a. In the baseline (nn.Linear) model, we generate a context tensor through the attention mechanism, and concatenate the context tensor to the end of the hidden state tensor. This results in a linear layer with parameters: **nn.Linear(2 * hidden_dim, vocab_size)**. 
 
-- Weights parameter count: $$ 
+- Weights parameter count:
+  
+$$ 
 2 H × V
 $$
 
 b. In the NdLinear version, we take advantage of ndLinear's strength for multidimensional inputs, and treat the context tensor as another row, resulting in an input of shape (2, hidden_dim). This results in a linear layer **NdLinear((2, hidden_dim), (1, vocab_size))**, which is **~50%** the parameters of the standard linear layer.
 - Weights parameter count:
+
 $$
 (2 * 1) + (H * V)
 $$
 
 
 We will benchmark the performance of the standard Seq2Seq model to this augmented model using NdLinear, and see how the smaller NdLinear model performs, compared to the larger standard model. 
+
+### Please check [benchmark.ipynb](https://github.com/coloshword/Seq2SeqTranslation/blob/master/benchmark.ipynb) for results
