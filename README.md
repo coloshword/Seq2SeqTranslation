@@ -1,6 +1,5 @@
 ## Benchmarking nn.Linear vs nd.Linear in a Sequence To Sequence Machine Translation Model
 ## Overview
-**This is my application to Ensemble AI's ML research intern & ML engineering intern positions**
 
 We will develop and benchmark two English → Chinese sequence to sequence translators built on an LSTM encoder decoder with Luong (general) attention.
 The models share the same data pipeline, tokenizer, training schedule, and hyper-parameters; they diverge only in the final output linear layer. 
